@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "https://skillbridge-project-6e9a.onrender.com/api/mentors";
+const API = "https://skillbridge-project-1-ck1y.onrender.com/";
 
 export const getMentors = () => axios.get(API);
 
