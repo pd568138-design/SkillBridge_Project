@@ -111,7 +111,7 @@ function Quiz() {
   const submitQuiz = async () => {
     alert("Quiz Completed 🎉 Score: " + score);
 
-    await fetch(`http://localhost:5000/api/challenges/${learner._id}`, {
+    await fetch(`https://skillbridge-project-1-ck1y.onrender.com/api/challenges/${learner._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
