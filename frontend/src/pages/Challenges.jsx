@@ -20,7 +20,7 @@ function Challenges() {
 
   const fetchChallenges = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/challenges");
+      const res = await fetch("https://skillbridge-project-2.onrender.com/api/challenges");
       const data = await res.json();
       setLearners(data);
     } catch (err) {
@@ -39,7 +39,7 @@ function Challenges() {
 
       if (editId) {
 
-        await fetch(`http://localhost:5000/api/challenges/${editId}`, {
+        await fetch(`https://skillbridge-project-2.onrender.com/api/challenges/${editId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form)
@@ -50,7 +50,7 @@ function Challenges() {
 
       } else {
 
-        await fetch("http://localhost:5000/api/challenges", {
+        await fetch("https://skillbridge-project-2.onrender.com/api/challenges", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -72,7 +72,7 @@ function Challenges() {
   };
 
   const deleteLearner = async (id) => {
-    await fetch(`http://localhost:5000/api/challenges/${id}`, {
+    await fetch(`https://skillbridge-project-2.onrender.com/api/challenges/${id}`, {
       method: "DELETE"
     });
 
