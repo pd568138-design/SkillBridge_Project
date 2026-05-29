@@ -19,7 +19,7 @@ function Mentors() {
   const [searchSkill, setSearchSkill] = useState("");
   const [editId, setEditId] = useState(null);
 
-  const API = "http://localhost:5000/api/mentors";
+  const API = "https://skillbridge-project-2.onrender.com/api/mentors";
 
   // LOAD
   useEffect(() => {
