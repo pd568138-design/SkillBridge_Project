@@ -34,7 +34,7 @@ function Login() {
     try {
 
       const res = await fetch(
-        "https://skillbridge-project-1-ck1y.onrender.com/api/auth/login",
+        "https://skillbridge-project-2.onrender.com/api/auth/login",
         {
           method: "POST",
           headers: {
