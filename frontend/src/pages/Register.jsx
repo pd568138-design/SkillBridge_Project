@@ -37,7 +37,7 @@ function Register() {
     try {
 
       const res = await fetch(
-        "http://localhost:5000/api/auth/register",
+        "https://skillbridge-project-1-ck1y.onrender.com/api/auth/register",
         {
           method: "POST",
           headers: {
