@@ -11,28 +11,23 @@ function Register() {
     password: ""
   });
 
-  const handleChange = (e) => {
+  const [loading, setLoading] = useState(false);
 
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
-
   };
 
   const handleRegister = async () => {
 
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.password
-    ) {
-
+    if (!formData.name || !formData.email || !formData.password) {
       alert("Fill all fields");
-
       return;
-
     }
+
+    setLoading(true);
 
     try {
 
@@ -47,7 +42,12 @@ function Register() {
         }
       );
 
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (err) {
+        data = { message: "Invalid server response" };
+      }
 
       if (res.ok) {
 
@@ -57,16 +57,16 @@ function Register() {
 
       } else {
 
-        alert(data.message);
+        alert(data.message || "Registration failed");
 
       }
 
     } catch (err) {
-
-      console.log(err);
-
+      console.log("Register Error:", err);
+      alert("Network Error / Server not responding");
+    } finally {
+      setLoading(false);
     }
-
   };
 
   return (
@@ -103,15 +103,13 @@ function Register() {
           onChange={handleChange}
         />
 
-        <button onClick={handleRegister}>
-          Register
+        <button onClick={handleRegister} disabled={loading}>
+          {loading ? "Registering..." : "Register"}
         </button>
 
         <p>
-          Already have account?
-          <Link to="/login">
-            Login
-          </Link>
+          Already have account?{" "}
+          <Link to="/login">Login</Link>
         </p>
 
       </div>
