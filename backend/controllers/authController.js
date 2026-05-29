@@ -9,17 +9,13 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "All fields required" });
     }
 
-    const existingUser = await User.findOne({ email });
+    const exists = await User.findOne({ email });
 
-    if (existingUser) {
+    if (exists) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const user = await User.create({
-      name,
-      email,
-      password
-    });
+    const user = await User.create({ name, email, password });
 
     res.status(201).json({
       message: "Register success",
@@ -27,17 +23,17 @@ export const register = async (req, res) => {
     });
 
   } catch (err) {
+    console.log("REGISTER ERROR:", err);
     res.status(500).json({ message: err.message });
   }
 };
-
 // LOGIN
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: "All fields required" });
+      return res.status(400).json({ message: "Email & password required" });
     }
 
     const user = await User.findOne({ email });
@@ -56,6 +52,7 @@ export const login = async (req, res) => {
     });
 
   } catch (err) {
+    console.log("LOGIN ERROR:", err);
     res.status(500).json({ message: err.message });
   }
 };
