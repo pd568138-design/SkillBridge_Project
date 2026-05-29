@@ -34,7 +34,7 @@ function Dashboard() {
       try {
 
         const res = await fetch(
-          "http://localhost:5000/api/challenges"
+          "https://skillbridge-project-2.onrender.com/api/challenges"
         );
 
         if(!res.ok){
