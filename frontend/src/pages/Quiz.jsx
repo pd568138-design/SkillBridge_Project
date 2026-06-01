@@ -82,6 +82,18 @@ function Quiz() {
       { q: "DB server?", options: ["MySQL", "HTML", "JS", "None"], a: "MySQL" },
       { q: "Foreign key?", options: ["Link table", "Unique", "Index", "None"], a: "Link table" }
     ]
+    React: [
+  { q: "React is?", options: ["Library", "Framework", "Database", "OS"], a: "Library" },
+  { q: "JSX stands for?", options: ["JavaScript XML", "Java Syntax", "JSON XML", "None"], a: "JavaScript XML" },
+  { q: "Hook for state?", options: ["useState", "useEffect", "useRef", "useMemo"], a: "useState" },
+  { q: "Virtual DOM?", options: ["Yes", "No", "Maybe", "None"], a: "Yes" },
+  { q: "React created by?", options: ["Facebook", "Google", "Microsoft", "Amazon"], a: "Facebook" },
+  { q: "Props are?", options: ["Read Only", "Writable", "Both", "None"], a: "Read Only" },
+  { q: "React Router used for?", options: ["Navigation", "Database", "Styling", "Testing"], a: "Navigation" },
+  { q: "Component is?", options: ["Reusable UI", "Database", "Server", "API"], a: "Reusable UI" },
+  { q: "File extension?", options: [".jsx", ".java", ".py", ".sql"], a: ".jsx" },
+  { q: "React uses?", options: ["Components", "Tables", "Rows", "Files"], a: "Components" }
+]
   };
 
   if (!learner) return <h2>Loading...</h2>;
