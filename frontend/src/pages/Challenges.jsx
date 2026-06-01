@@ -102,6 +102,8 @@ function Challenges() {
           >
             <option value="">Select Skill</option>
             <option>DSA</option>
+            <option>DBMS</option>
+            <option>NodeJS</option>
             <option>React</option>
             <option>Java</option>
             <option>Python</option>
