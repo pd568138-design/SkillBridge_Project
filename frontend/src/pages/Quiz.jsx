@@ -81,8 +81,8 @@ function Quiz() {
       { q: "Normal form?", options: ["Normalization", "Loop", "Sort", "None"], a: "Normalization" },
       { q: "DB server?", options: ["MySQL", "HTML", "JS", "None"], a: "MySQL" },
       { q: "Foreign key?", options: ["Link table", "Unique", "Index", "None"], a: "Link table" }
-    ]
-    React: [
+    ],
+      React: [
   { q: "React is?", options: ["Library", "Framework", "Database", "OS"], a: "Library" },
   { q: "JSX stands for?", options: ["JavaScript XML", "Java Syntax", "JSON XML", "None"], a: "JavaScript XML" },
   { q: "Hook for state?", options: ["useState", "useEffect", "useRef", "useMemo"], a: "useState" },
