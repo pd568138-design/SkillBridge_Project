@@ -28,7 +28,7 @@ function Learners() {
     useState(null);
 
   const API =
-    "https://skillbridge-project-2.onrender.com/api/learners";
+    "https://skillbridge-project-3.onrender.com/api/learners";
 
   // LOAD
   useEffect(() => {
@@ -64,7 +64,7 @@ function Learners() {
     try {
 
       const res = await axios.get(
-        `https://skillbridge-project-2.onrender.com/api/mentors/${user._id}`
+        `https://skillbridge-project-3.onrender.com/api/mentors/${user._id}`
       );
 
       setMentors(res.data);
@@ -247,7 +247,7 @@ function Learners() {
 
       await axios.put(
 
-        `https://skillbridge-project-2.onrender.com/api/mentors/${mentor._id}`,
+        `https://skillbridge-project-3.onrender.com/api/mentors/${mentor._id}`,
 
         {
 
