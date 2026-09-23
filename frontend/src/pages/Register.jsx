@@ -32,7 +32,7 @@ function Register() {
     try {
 
       const res = await fetch(
-        "https://skillbridge-project-2.onrender.com/api/auth/register",
+        "https://skillbridge-project-3.onrender.com/api/auth/register",
         {
           method: "POST",
           headers: {
