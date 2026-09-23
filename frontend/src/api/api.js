@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://skillbridge-project-2.onrender.com/api/auth"
+  baseURL: "https://skillbridge-project-3.onrender.com//api/auth"
 });
 
 export const registerUser = (data) => API.post("/register", data);
