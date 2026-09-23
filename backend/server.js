@@ -19,21 +19,23 @@ app.use("/api/learners", learnerRoutes);
 app.use("/api/mentors", mentorRoutes);
 app.use("/api/challenges", challengeRoutes);
 
-// MONGODB CONNECT
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log("MongoDB Connected");
-})
-.catch((err) => {
-  console.log(err);
-});
-
+// HOME
 app.get("/", (req, res) => {
   res.send("SkillBridge API Running");
 });
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
-});
+// MONGODB CONNECT
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB Atlas Connected");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB Connection Failed:", err.message);
+  });
