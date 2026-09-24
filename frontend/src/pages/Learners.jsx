@@ -12,7 +12,11 @@ function Learners() {
 
   // New JWT login gives "id"
   // Old login may have given "_id"
-  const userId = user?.id || user?._id;
+  const userId =
+    user?.id ||
+    user?._id ||
+    user?.user?.id ||
+    user?.user?._id;
 
 
   // ================= LEARNER FORM =================
