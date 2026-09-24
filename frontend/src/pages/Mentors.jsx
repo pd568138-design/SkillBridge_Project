@@ -1,162 +1,8 @@
-import { useState, useEffect } from "react";
-import Sidebar from "../components/Sidebar";
-import axios from "axios";
-
-function Mentors() {
-
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  const [mentor, setMentor] = useState({
-    name: "",
-    email: "",
-    contact: "",
-    skill: "",
-    experience: ""
-  });
-
-  const [mentors, setMentors] = useState([]);
-  const [filteredMentors, setFilteredMentors] = useState([]);
-  const [searchSkill, setSearchSkill] = useState("");
-  const [editId, setEditId] = useState(null);
-
-  const API = "https://skillbridge-project-3.onrender.com/api/mentors";
-
-  // LOAD
-  useEffect(() => {
-    loadMentors();
-  }, []);
-
-  const loadMentors = async () => {
-    try {
-      const res = await axios.get(`${API}/${user._id}`);
-
-      setMentors(res.data);
-      setFilteredMentors(res.data);
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // INPUT
-  const handleChange = (e) => {
-    setMentor({
-      ...mentor,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  // ADD / UPDATE
-  const saveMentor = async () => {
-
-    if (!mentor.name || !mentor.skill) {
-      alert("Fill all fields");
-      return;
-    }
-
-    try {
-
-      // UPDATE
-      if (editId) {
-
-        await axios.put(`${API}/${editId}`, mentor);
-
-        alert("Mentor Updated");
-        setEditId(null);
-
-      }
-
-      // ADD
-      else {
-
-        await axios.post(API, {
-          ...mentor,
-          learners: [],
-          userId: user._id
-        });
-
-        alert("Mentor Added");
-      }
-
-      setMentor({
-        name: "",
-        email: "",
-        contact: "",
-        skill: "",
-        experience: ""
-      });
-
-      loadMentors();
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // SEARCH
-  const searchMentors = () => {
-
-    if (!searchSkill) {
-      setFilteredMentors(mentors);
-      return;
-    }
-
-    const result = mentors.filter((m) =>
-      m.skill.toLowerCase().includes(searchSkill.toLowerCase())
-    );
-
-    setFilteredMentors(result);
-  };
-
-  // CONNECT (ONLY UI LIKE LEARNERS)
-  const connectMentor = (m) => {
-    alert(`${m.name} Connected`);
-  };
-
-  // DELETE
-  const deleteMentorHandler = async (id) => {
-    try {
-      await axios.delete(`${API}/${id}`);
-      loadMentors();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  return (
-    <div className="main-container">
-
-      <Sidebar />
-
-      <div className="content">
-
-        {/* HEADER */}
-        <div className="top-section">
-          <h1>Mentor Hub 👨‍🏫</h1>
-          <p>Manage Mentors</p>
-        </div>
-
-        {/* FORM */}
-        <div className="mentor-form">
-
-          <input
-            name="name"
-            placeholder="Mentor Name"
-            value={mentor.name}
-            onChange={handleChange}
-          />
-
           <input
             name="email"
+            type="email"
             placeholder="Email"
             value={mentor.email}
-            onChange={handleChange}
-          />
-
-          <input
-            name="contact"
-            placeholder="Contact"
-            value={mentor.contact}
             onChange={handleChange}
           />
 
@@ -174,87 +20,87 @@ function Mentors() {
             <option>Python</option>
           </select>
 
-          <input
-            name="experience"
-            placeholder="Experience"
-            value={mentor.experience}
-            onChange={handleChange}
-          />
-
-          <button className="save-btn" onClick={saveMentor}>
+          <button
+            className="save-btn"
+            onClick={saveMentor}
+          >
             {editId ? "Update Mentor" : "Add Mentor"}
           </button>
 
+          {editId && (
+            <button
+              className="small-btn"
+              onClick={cancelEdit}
+            >
+              Cancel
+            </button>
+          )}
         </div>
 
-        {/* SEARCH */}
-        <div className="search-box">
-
-          <input
-            placeholder="Search Skill"
-            value={searchSkill}
-            onChange={(e) => setSearchSkill(e.target.value)}
-          />
-
-          <button onClick={searchMentors}>
-            Search
-          </button>
-
-        </div>
-
-        {/* LIST */}
+        {/* ================= MENTOR LIST ================= */}
         <div className="challenge-grid">
 
-          {filteredMentors.map((m) => (
+          {mentors.length === 0 ? (
+            <p>No mentors found.</p>
+          ) : (
+            mentors.map((item) => (
+              <div
+                className="challenge-card"
+                key={item._id}
+              >
 
-            <div className="challenge-card" key={m._id}>
+                <div className="badge">
+                  {item.skill}
+                </div>
 
-              <div className="badge">{m.skill}</div>
+                <h3>{item.name}</h3>
 
-              <h3>{m.name}</h3>
+                <p>📧 {item.email}</p>
 
-              <p>📧 {m.email}</p>
-              <p>📞 {m.contact}</p>
-              <p>💼 {m.experience}</p>
+                <p>📚 Skill: {item.skill}</p>
 
-              <p>👨‍🎓 Learners: {m.learners?.length || 0}</p>
+                <p>
+                  👥 Learners:{" "}
+                  {item.learners?.length || 0}
+                </p>
 
-              <div className="mentor-actions">
+                <div className="mentor-actions">
 
-                <button
-                  className="small-btn connect-btn"
-                  onClick={() => connectMentor(m)}
-                >
-                  🤝 Connect
-                </button>
+                  <button
+                    className="small-btn"
+                    onClick={() => editMentor(item)}
+                  >
+                    ✏ Edit
+                  </button>
 
-                <button
-                  className="small-btn"
-                  onClick={() => {
-                    setMentor(m);
-                    setEditId(m._id);
-                  }}
-                >
-                  ✏ Edit
-                </button>
+                  <button
+                    className="small-btn delete-btn"
+                    onClick={() => deleteMentor(item._id)}
+                  >
+                    🗑 Delete
+                  </button>
 
-                <button
-                  className="small-btn delete-btn"
-                  onClick={() => deleteMentorHandler(m._id)}
-                >
-                  🗑 Delete
-                </button>
+                </div>
+
+                <h4>Connected Learners</h4>
+
+                {item.learners?.length > 0 ? (
+                  <ul>
+                    {item.learners.map((learner, index) => (
+                      <li key={index}>{learner}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No learners connected.</p>
+                )}
 
               </div>
-
-            </div>
-
-          ))}
+            ))
+          )}
 
         </div>
 
       </div>
-
     </div>
   );
 }
