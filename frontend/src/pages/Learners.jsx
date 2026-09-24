@@ -563,4 +563,4 @@ function Learners() {
  
 } 
  
-export default Learners;   idhu vandhu without atlas so enaku atlas la ulla marii newva learners.jsx ku full code kudu 566 lines varum
+export default Learners;  
