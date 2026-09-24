@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -10,28 +9,23 @@ function Login() {
     password: ""
   });
 
-  const handleChange = (e) => {
+  const [loading, setLoading] = useState(false);
 
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
-
   };
 
   const handleLogin = async () => {
-
-    if (
-      !formData.email ||
-      !formData.password
-    ) {
-
+    if (!formData.email || !formData.password) {
       alert("Fill all fields");
       return;
-
     }
 
     try {
+      setLoading(true);
 
       const res = await fetch(
         "https://skillbridge-project-3.onrender.com/api/auth/login",
@@ -46,39 +40,49 @@ function Login() {
 
       const data = await res.json();
 
-      if(res.ok){
+      console.log("LOGIN RESPONSE:", data);
 
-        // SAVE USER
+      if (res.ok) {
+
+        // Save only user details
         localStorage.setItem(
           "user",
-          JSON.stringify(data)
+          JSON.stringify(data.user)
         );
+
+        // Save JWT token
+        localStorage.setItem(
+          "token",
+          data.token
+        );
+
+        alert("Login Successful");
 
         navigate("/dashboard");
 
       } else {
-
-        alert(data.message);
-
+        alert(data.message || "Login failed");
       }
 
-    } catch(err){
+    } catch (err) {
+      console.error("LOGIN ERROR:", err);
+      alert("Unable to connect to server");
 
-      console.log(err);
-
+    } finally {
+      setLoading(false);
     }
-
   };
 
-  return(
-
+  return (
     <div className="login-container">
 
       <div className="login-box">
 
         <h1>SkillBridge</h1>
 
-        <p>Student Collaboration Platform</p>
+        <p>
+          Student Collaboration Platform
+        </p>
 
         <input
           type="email"
@@ -96,26 +100,25 @@ function Login() {
           onChange={handleChange}
         />
 
-        <button onClick={handleLogin}>
-          Login
+        <button
+          onClick={handleLogin}
+          disabled={loading}
+        >
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <p>
-
-          Don't have account?
+          Don't have account?{" "}
 
           <Link to="/">
             Register
           </Link>
-
         </p>
 
       </div>
 
     </div>
-
   );
-
 }
 
 export default Login;
